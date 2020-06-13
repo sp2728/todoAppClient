@@ -27,8 +27,8 @@ export class TodoComponent implements OnInit {
   createForm() {
     this.todoForm = this.fb.group({
       todoValue: ['', [Validators.required]],
-      priority: ['null', [Validators.required]],
-      category: ['null', [Validators.required]]
+      priority: ['', [Validators.required]],
+      category: ['', [Validators.required]]
     })
   }
 
