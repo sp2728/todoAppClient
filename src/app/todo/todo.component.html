@@ -1,0 +1,89 @@
+<nav class="navbar navbar-expand-lg shadow navbar-light bg-light">
+  <a class="navbar-brand font-weight-bold p-2" href="/">LCSampleTodoApp</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto">
+      <a class="nav-item font-weight-bold active">{{date | date:'medium'}} <span class="sr-only">(current)</span></a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrapper p-5 bg-info">
+  <div class="pb-5">
+    <!-- Todo List Form -->
+    <form class="row" [formGroup]="todoForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+      <div class="col-lg-8 form-group">
+        <input class="form-control" formControlName="todoValue" type="text" placeholder="Enter the todo item" required>
+        <span class="text-danger" *ngIf="todoForm.get('todoValue').hasError('required') && submitted">Todo Value is required</span>
+      </div>
+      <div class="col form-group">
+        <select class="form-control" formControlName="priority" required>
+          <option value="null" disabled selected> Priority </option>
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+        </select>
+        <span class="text-danger" *ngIf="todoForm.get('priority').hasError('required') && submitted">Priority must be selected</span>
+      </div>
+      <div class="col form-group">
+        <select class="form-control" formControlName="category" required>
+          <option value="null" disabled selected>Category</option>
+          <option >Work</option>
+          <option>Home</option>
+          <option>Misc</option>
+        </select>
+        <span class="text-danger" *ngIf="todoForm.get('category').hasError('required') && submitted">Category must be selected</span>
+      </div>
+      <div class="col-lg form-group">
+        <button class="btn btn-warning form-control border shadow">Add</button>
+      </div>
+    </form>
+  </div>
+  <!--Todo List Table-->
+  <div class="card">
+    <div class="text-center" *ngIf="todoList.length==0">
+      <p class="font-weight-bold"> TODO list is empty </p>
+    </div>
+    <div *ngIf="todoList.length!=0">
+      <table class="w-100 border table-striped text-center">
+        <thead>
+        <tr class="">
+          <th id="todo">Todo</th>
+          <th id="priority">Priority</th>          
+          <th id="category">Category</th>
+          <th id="status">Status</th>
+          <th id="actions">Actions</th>
+        </tr> 
+      </thead>
+      <tbody>
+        <tr *ngFor="let todo of todoList">
+          <td id="todo">
+            <span class="font-weight-bold">{{todo.todoValue}}</span>
+          </td>
+          <td id="priority">
+            <span class="font-weight-bold text-primary" *ngIf="todo.priority=='Low'">{{todo.priority}}</span>
+            <span class="font-weight-bold text-warning" *ngIf="todo.priority=='Medium'">{{todo.priority}}</span>
+            <span class="font-weight-bold text-danger" *ngIf="todo.priority=='High'">{{todo.priority}}</span>
+          </td>
+          <td id="category">
+            <span class="font-weight-bold text-primary">{{todo.category}}</span>
+          </td>
+          <td id="status">
+            <span class="font-weight-bold text-danger" *ngIf="todo.status=='Incomplete'">{{todo.status}}</span>
+            <span class="font-weight-bold text-success" *ngIf="todo.status=='Complete'">{{todo.status}}</span>
+
+          </td>
+          <td id="actions">
+            <a class="text-success p-2" (click)="completeTodo(todo)"><i class="fa fa-check-circle fa-lg"></i></a>
+            <a class="text-warning p-2" (click)="inCompleteTodo(todo)" ><i class="fa fa-times-circle fa-lg"></i></a>
+            <a class="text-danger p-2" (click)="deleteTodo(todo)"><i class="fa fa-trash fa-lg"></i></a>
+          </td>
+        </tr>
+      </tbody>
+      </table>
+    </div>
+  </div>
+</div>

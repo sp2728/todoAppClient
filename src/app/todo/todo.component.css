@@ -1,0 +1,23 @@
+.wrapper{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.card{
+    overflow-x: scroll;
+}
+
+
+td, th{
+    padding: 20px;
+}
+
+#todo{
+    width: 40%;
+}
+
+.navbar-brand{
+    border: 1px solid black;
+    border-radius: 30px;
+}   
