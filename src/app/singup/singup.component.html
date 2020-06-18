@@ -1,0 +1,30 @@
+<div class="wrapper">
+
+  <div class="card">
+
+    <h4 class="text-center card-header"><a class="navbar-brand logo font-weight-bold p-2" routerLink="/">Todo App</a>
+    </h4>
+
+    <div class="card-body">
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <input class="form-control" type="text" placeholder="Username" value="" formControlName="username">
+          <span class="text-danger" *ngIf="signupForm.get('username').hasError('required') && submitted">Username is required</span>
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" placeholder="Email Id" value="" formControlName="email">
+          <span class="text-danger" *ngIf="signupForm.get('email').hasError('required') && submitted">Email is required</span>
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" placeholder="Password" value="" formControlName="password">
+          <span class="text-danger" *ngIf="signupForm.get('password').hasError('required') && submitted">Password is required</span>
+        </div>
+        <div class="form-group text-center">
+          <button class="btn btn-warning shadow">Signup</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+</div>

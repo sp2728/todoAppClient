@@ -1,22 +1,26 @@
 <nav class="navbar navbar-expand-lg shadow navbar-light bg-light">
-  <a class="navbar-brand font-weight-bold p-2" href="/">LCSampleTodoApp</a>
+  <a class="navbar-brand logo font-weight-bold p-2" routerLink="/">Todo App</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav ml-auto">
-      <a class="nav-item font-weight-bold active">{{date | date:'medium'}} <span class="sr-only">(current)</span></a>
+      <a class="nav-item font-weight-bold">{{date | date:'medium'}}</a>
+      <a class="btn btn-warning shadow font-weight-bold nav-item ml-3" routerLink="/login" *ngIf="!user" >Login</a>
+      <a class="btn btn-warning shadow font-weight-bold nav-item ml-3" routerLink="/signup" *ngIf="!user">Signup</a>
+      <a class="btn btn-warning shadow font-weight-bold nav-item ml-3" (click)="logout()" *ngIf="user">Logout</a>
+
     </div>
   </div>
 </nav>
 
-<div class="wrapper p-5 bg-info">
+<div class="wrapper p-5">
   <div class="pb-5">
     <!-- Todo List Form -->
     <form class="row" [formGroup]="todoForm" #fform="ngForm" (ngSubmit)="onSubmit()">
       <div class="col-lg-8 form-group">
-        <input class="form-control" formControlName="todoValue" type="text" placeholder="Enter the todo item" required>
+        <input class="form-control" formControlName="todoValue" type="text" (keyup)="loginCheck()" placeholder="Enter the todo item" required>
         <span class="text-danger" *ngIf="todoForm.get('todoValue').hasError('required') && submitted">Todo Value is required</span>
       </div>
       <div class="col form-group">

@@ -1,0 +1,11 @@
+.wrapper{
+    height:100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #5bc0de
+}
+
+.card{
+width: 400px;
+}

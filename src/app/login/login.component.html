@@ -1,0 +1,23 @@
+<div class="wrapper">
+
+  <div class="card">
+
+    <h4 class="text-center card-header"><a class="navbar-brand logo font-weight-bold p-2" routerLink="/">Todo App</a></h4>
+
+    <div class="card-body">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <input class="form-control" type="text" placeholder="Username" value="" formControlName="username" required>
+          <span class="text-danger" *ngIf="loginForm.get('username').hasError('required') && submitted">Username is required</span>
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="password" placeholder="Password" value="" formControlName="password" required>
+          <span class="text-danger" *ngIf="loginForm.get('password').hasError('required') && submitted">Password is required</span>
+        </div>
+        <div class="form-group text-center">
+          <button class="btn btn-warning shadow"> Login </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

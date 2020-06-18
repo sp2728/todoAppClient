@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { LocalstorageService } from '../services/localstorage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-todo',
@@ -14,12 +16,14 @@ export class TodoComponent implements OnInit {
   todoList: any
   date: any;
   submitted: any;
+  user:any;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private localStorageService:LocalstorageService, private router:Router) { }
 
   ngOnInit() {
     this.todoList = [{ 'todoValue': 'Go to work', 'priority': 'High', 'category': 'Work', 'status': 'Complete' }];
     this.createForm();
+    this.user = this.localStorageService.getUser();
     this.date = new Date()
     this.submitted = false;
   }
@@ -44,6 +48,12 @@ export class TodoComponent implements OnInit {
     }
   }
 
+  loginCheck(){
+    if(!this.user){
+      this.router.navigate(['/login']);
+    }
+  }
+
   completeTodo(item: any) {
     let todo = this.todoList.find(obj => obj['todoValue'] == item['todoValue']);
     console.log(todo['status'])
@@ -59,5 +69,10 @@ export class TodoComponent implements OnInit {
     this.todoList.splice(this.todoList.findIndex(function (i) {
       return i['todoValue'] === item['todoValue'];
     }), 1);
+  }
+
+  logout(){
+    this.localStorageService.clearAll();
+    this.router.navigate(['/']);
   }
 }
