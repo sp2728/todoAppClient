@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalstorageService } from '../services/localstorage.service';
+import { CompleteService } from '../services/complete.service';
 
 @Component({
   selector: 'app-login',
@@ -13,8 +14,9 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loginData: any;
   submitted: any;
+  error:any;
 
-  constructor(private fb: FormBuilder, private router:Router, private localStorageService:LocalstorageService) { }
+  constructor(private fb: FormBuilder, private router:Router, private localStorageService:LocalstorageService,private completeService:CompleteService) { }
 
   ngOnInit() {
     this.createForm();
@@ -32,11 +34,18 @@ export class LoginComponent implements OnInit {
     this.submitted=true;
     if(this.loginForm.valid){
       this.loginData = this.loginForm.value;
-      console.log(this.loginData);
       this.submitted=false;
-      this.localStorageService.setUser(this.loginData['username']);
-      this.router.navigate(['/'])
-      this.loginForm.reset();
+      this.completeService.postLogin(this.loginData).subscribe((res)=>{
+        console.log(res);
+        if(res['success']){
+          this.localStorageService.setUser(this.loginData['username']);
+          this.router.navigate(['/'])
+        }
+        else{
+          this.error="Invalid username or password";
+          this.loginForm.reset()
+        }
+      })
     }
   }
 

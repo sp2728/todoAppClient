@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LocalstorageService } from '../services/localstorage.service';
 import { Router } from '@angular/router';
+import { CompleteService } from '../services/complete.service';
 
 @Component({
   selector: 'app-todo',
@@ -17,8 +18,9 @@ export class TodoComponent implements OnInit {
   date: any;
   submitted: any;
   user:any;
+  error:any;
 
-  constructor(private fb: FormBuilder, private localStorageService:LocalstorageService, private router:Router) { }
+  constructor(private fb: FormBuilder, private localStorageService:LocalstorageService, private completeService:CompleteService, private router:Router) { }
 
   ngOnInit() {
     this.todoList = [{ 'todoValue': 'Go to work', 'priority': 'High', 'category': 'Work', 'status': 'Complete' }];
@@ -72,7 +74,12 @@ export class TodoComponent implements OnInit {
   }
 
   logout(){
-    this.localStorageService.clearAll();
-    this.router.navigate(['/']);
+    this.completeService.getLogout().subscribe((res)=>{
+      if(res['success']){
+        this.localStorageService.clearAll();
+        console.log('Successfully logged out');
+        this.router.navigate(['/login']);
+      }
+    })
   }
 }

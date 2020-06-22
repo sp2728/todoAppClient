@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CompleteService } from '../services/complete.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-singup',
@@ -11,8 +13,8 @@ export class SingupComponent implements OnInit {
   signupForm: FormGroup;
   signupData: any;
   submitted: any;
-
-  constructor(private fb: FormBuilder) { }
+  error:any;
+  constructor(private fb: FormBuilder, private completeService:CompleteService, private router:Router) { }
 
   ngOnInit() {
     this.createForm();
@@ -31,8 +33,15 @@ export class SingupComponent implements OnInit {
     this.submitted=true;
     if(this.signupForm.valid){
       this.signupData = this.signupForm.value;
-      console.log(this.signupData);
-      this.signupForm.reset()
+      this.completeService.postSignup(this.signupData).subscribe((res)=>{
+        if(res['success']){
+          this.router.navigate(['/']);
+        }
+        else{
+          this.error="Invalid registration";
+          this.signupForm.reset()
+        }
+      })
     }
   }
 

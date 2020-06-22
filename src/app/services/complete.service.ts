@@ -17,4 +17,8 @@ export class CompleteService {
     return this.http.post(environment.backend_url+'signup', signupData);
   }
 
+  getLogout(){
+    return this.http.get(environment.backend_url+'logout');
+  }
+
 }
