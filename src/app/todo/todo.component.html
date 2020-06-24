@@ -1,71 +1,66 @@
-<nav class="navbar navbar-expand-lg shadow navbar-light bg-light">
-  <a class="navbar-brand logo font-weight-bold p-2" routerLink="/">Todo App</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav ml-auto">
-      <a class="nav-item font-weight-bold">{{date | date:'medium'}}</a>
-      <a class="btn btn-warning shadow font-weight-bold nav-item ml-3" routerLink="/login" *ngIf="!user" >Login</a>
-      <a class="btn btn-warning shadow font-weight-bold nav-item ml-3" routerLink="/signup" *ngIf="!user">Signup</a>
-      <a class="btn btn-warning shadow font-weight-bold nav-item ml-3" (click)="logout()" *ngIf="user">Logout</a>
-
-    </div>
-  </div>
-</nav>
+<app-header></app-header>
 
 <div class="wrapper p-5">
-  <div class="pb-5">
-    <!-- Todo List Form -->
-    <form class="row" [formGroup]="todoForm" #fform="ngForm" (ngSubmit)="onSubmit()">
-      <div class="col-lg-8 form-group">
-        <input class="form-control" formControlName="todoValue" type="text" (keyup)="loginCheck()" placeholder="Enter the todo item" required>
-        <span class="text-danger" *ngIf="todoForm.get('todoValue').hasError('required') && submitted">Todo Value is required</span>
-      </div>
-      <div class="col form-group">
-        <select class="form-control" formControlName="priority" required>
-          <option value="" disabled selected> Priority </option>
-          <option>Low</option>
-          <option>Medium</option>
-          <option>High</option>
-        </select>
-        <span class="text-danger" *ngIf="todoForm.get('priority').hasError('required') && submitted">Priority must be selected</span>
-      </div>
-      <div class="col form-group">
-        <select class="form-control" formControlName="category" required>
-          <option value="" disabled selected>Category</option>
-          <option >Work</option>
-          <option>Home</option>
-          <option>Misc</option>
-        </select>
-        <span class="text-danger" *ngIf="todoForm.get('category').hasError('required') && submitted">Category must be selected</span>
-      </div>
-      <div class="col-lg form-group">
-        <button class="btn btn-warning form-control border shadow">Add</button>
-      </div>
-    </form>
+  <div class="form-control text-center mb-2" *ngIf="error">
+    <span class="text-danger">{{error}}</span>
   </div>
-  <!--Todo List Table-->
-  <div class="card">
-    <div class="text-center" *ngIf="todoList.length==0">
-      <p class="font-weight-bold"> TODO list is empty </p>
+  <div class="card d-flex flex-row justify-content-around w-100 mb-5">
+    <a class="nav-link btn btn-primary" (click)="filter(1)">All </a>
+
+    <a class="nav-link btn btn-danger" (click)="filter(2)">Scheduled</a>
+
+    <a class="nav-link btn btn-warning" (click)="filter(3)">Flagged</a>
+  </div>
+  <!-- Todo List Form -->
+  <form class="row mb-5" [formGroup]="todoForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+    <div class="col-lg-8 form-group">
+      <input class="form-control" formControlName="activity" type="text" placeholder="Enter the todo item" required>
+      <span class="text-danger" *ngIf="todoForm.get('activity').hasError('required') && submitted">Todo Value is
+        required</span>
     </div>
-    <div *ngIf="todoList.length!=0">
-      <table class="w-100 border table-striped text-center">
-        <thead>
+    <div class="col form-group">
+      <select class="form-control" formControlName="priority" required>
+        <option value="" disabled selected> Priority </option>
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+      </select>
+      <span class="text-danger" *ngIf="todoForm.get('priority').hasError('required') && submitted">Priority must be
+        selected</span>
+    </div>
+    <div class="col form-group">
+      <select class="form-control" formControlName="category" required>
+        <option value="" disabled selected>Category</option>
+        <option>Work</option>
+        <option>Home</option>
+        <option>Misc</option>
+      </select>
+      <span class="text-danger" *ngIf="todoForm.get('category').hasError('required') && submitted">Category must be
+        selected</span>
+    </div>
+    <div class="col-lg form-group">
+      <button class="btn btn-warning form-control border shadow">Add</button>
+    </div>
+  </form>
+  <!--Todo List Table-->
+  <div class="card p-3 d-flex justify-content-center align-items-center" *ngIf="todoList.length==0">
+    <p class="font-weight-bold"> TODO list is empty </p>
+  </div>
+  <div class="card" *ngIf="todoList.length!=0">
+    <table class="w-100 border table-striped text-center">
+      <thead>
         <tr class="">
           <th id="todo">Todo</th>
-          <th id="priority">Priority</th>          
+          <th id="priority">Priority</th>
           <th id="category">Category</th>
           <th id="status">Status</th>
           <th id="actions">Actions</th>
-        </tr> 
+        </tr>
       </thead>
       <tbody>
         <tr *ngFor="let todo of todoList">
           <td id="todo">
-            <span class="font-weight-bold">{{todo.todoValue}}</span>
+            <span class="font-weight-bold">{{todo.activity}}</span>
           </td>
           <td id="priority">
             <span class="font-weight-bold text-primary" *ngIf="todo.priority=='Low'">{{todo.priority}}</span>
@@ -81,13 +76,14 @@
 
           </td>
           <td id="actions">
-            <a class="text-success p-2" (click)="completeTodo(todo)"><i class="fa fa-check-circle fa-lg"></i></a>
-            <a class="text-warning p-2" (click)="inCompleteTodo(todo)" ><i class="fa fa-times-circle fa-lg"></i></a>
-            <a class="text-danger p-2" (click)="deleteTodo(todo)"><i class="fa fa-trash fa-lg"></i></a>
+            <a class="text-success p-2" title="Completed" (click)="triggerStatus(todo)"
+              *ngIf="todo.status=='Incomplete'"><i class="fa fa-check-circle fa-lg"></i></a>
+            <a class="text-warning p-2" title="Incompleted" (click)="triggerStatus(todo)"
+              *ngIf="todo.status=='Complete'"><i class="fa fa-times-circle fa-lg"></i></a>
+            <a class="text-danger p-2" (click)="deleteTodo(todo._id)"><i class="fa fa-trash fa-lg"></i></a>
           </td>
         </tr>
       </tbody>
-      </table>
-    </div>
+    </table>
   </div>
 </div>

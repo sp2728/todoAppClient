@@ -14,25 +14,23 @@ export class TodoComponent implements OnInit {
   @ViewChild('fform') todoFormDirective;
   todoForm: FormGroup;
   todoData: any;
-  todoList: any
-  date: any;
+  todoList = [];
   submitted: any;
-  user:any;
-  error:any;
+  user: any;
+  error: any;
 
-  constructor(private fb: FormBuilder, private localStorageService:LocalstorageService, private completeService:CompleteService, private router:Router) { }
+  constructor(private fb: FormBuilder, private localStorageService: LocalstorageService, private completeService: CompleteService, private router: Router) { }
 
   ngOnInit() {
-    this.todoList = [{ 'todoValue': 'Go to work', 'priority': 'High', 'category': 'Work', 'status': 'Complete' }];
+    this.getTodos();
     this.createForm();
     this.user = this.localStorageService.getUser();
-    this.date = new Date()
     this.submitted = false;
   }
 
   createForm() {
     this.todoForm = this.fb.group({
-      todoValue: ['', [Validators.required]],
+      activity: ['', [Validators.required]],
       priority: ['', [Validators.required]],
       category: ['', [Validators.required]]
     })
@@ -40,46 +38,71 @@ export class TodoComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    if (this.todoForm.valid) {
+    if (this.todoForm.valid && this.user) {
+      this.error="";
       this.todoData = this.todoForm.value;
-      this.todoData['status'] = "Incomplete"
-      console.log(this.todoData);
-      this.todoList.push(this.todoData);
-      this.submitted = false;
-      this.todoForm.reset()
+      this.completeService.addTodo(this.todoData).subscribe((res) => {
+        if (res['success']) {
+          this.submitted = false;
+          this.getTodos();
+          this.todoForm.reset()
+        }
+      })
+    }
+    else if(!this.user){
+      this.error = "Please Log in"
     }
   }
 
-  loginCheck(){
-    if(!this.user){
-      this.router.navigate(['/login']);
-    }
+  getTodos() {
+    this.completeService.getTodos().subscribe((res) => {
+      this.todoList = res['todos']
+    })
   }
 
-  completeTodo(item: any) {
-    let todo = this.todoList.find(obj => obj['todoValue'] == item['todoValue']);
-    console.log(todo['status'])
-    todo['status'] = "Complete"
-  }
-
-  inCompleteTodo(item: any) {
-    let todo = this.todoList.find(obj => obj['todoValue'] == item['todoValue']);
-    todo['status'] = "Incomplete"
-  }
-
-  deleteTodo(item: any) {
-    this.todoList.splice(this.todoList.findIndex(function (i) {
-      return i['todoValue'] === item['todoValue'];
-    }), 1);
-  }
-
-  logout(){
-    this.completeService.getLogout().subscribe((res)=>{
-      if(res['success']){
-        this.localStorageService.clearAll();
-        console.log('Successfully logged out');
-        this.router.navigate(['/login']);
+  triggerStatus(todo: any) {
+    this.completeService.triggerStatus(todo._id, todo.status).subscribe((res) => {
+      if (res['success']) {
+        this.getTodos();
       }
     })
   }
+  
+  deleteTodo(id: any) {
+    this.completeService.deleteTodo(id).subscribe((res) => {
+      if (res['success']) {
+        console.log(res);
+        this.getTodos();
+      }
+    })
+  }
+
+  filter(num:any){
+    if(num==1){
+      this.getTodos();
+    }
+    else if(num==2){
+      this.completeService.getTodos().subscribe((res)=>{
+        this.todoList = res['todos'].filter(todo=> todo.status== "Incomplete");
+      })    } 
+    else{
+      this.completeService.getTodos().subscribe((res)=>{
+        this.todoList = res['todos'].filter(todo=> todo.status== "Complete");
+      })
+    }
+  }
+
 }
+
+   // this.todoList.splice(this.todoList.findIndex(function (i) {
+    //   return i['todoValue'] === item['todoValue'];
+    // }), 1);
+  // completeTodo(item: any) {
+  //   let todo = this.todoList.find(obj => obj['activity'] == item['activity']);
+  //   console.log(todo['status'])
+  //   todo['status'] = "Complete"
+  // }
+  // inCompleteTodo(item: any) {
+  //   let todo = this.todoList.find(obj => obj['activity'] == item['activity']);
+  //   todo['status'] = "Incomplete"
+  // }

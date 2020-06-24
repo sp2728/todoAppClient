@@ -7,7 +7,7 @@
 
     <div class="card-body">
       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-        <span class="text-danger form-control border-0 text-center" *ngIf="error && (loginForm.get('username').hasError('required') && loginForm.get('password').hasError('required'))">{{error}}</span>
+        <span class="text-danger form-control border-0 text-center" *ngIf="error && (signupForm.get('username').hasError('required') && signupForm.get('email').hasError('required') && signupForm.get('password').hasError('required'))">{{error}}</span>
         <div class="form-group">
           <input class="form-control" type="text" placeholder="Username" value="" formControlName="username">
           <span class="text-danger" *ngIf="signupForm.get('username').hasError('required') && submitted">Username is required</span>

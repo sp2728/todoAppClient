@@ -38,7 +38,13 @@ export class SingupComponent implements OnInit {
           this.router.navigate(['/']);
         }
         else{
-          this.error="Invalid registration";
+          console.log(res['err']['name']);
+          if(res['err']['name']==='UserExistsError'){
+            this.error="Username already exists";
+          }
+          else{
+            this.error="Invalid Registration";
+          }
           this.signupForm.reset()
         }
       })

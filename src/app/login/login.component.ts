@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
       this.loginData = this.loginForm.value;
       this.submitted=false;
       this.completeService.postLogin(this.loginData).subscribe((res)=>{
-        console.log(res);
         if(res['success']){
           this.localStorageService.setUser(this.loginData['username']);
           this.router.navigate(['/'])

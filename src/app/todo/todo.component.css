@@ -2,10 +2,16 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background-color: whitesmoke;
 }
 
 .card{
     overflow-x: scroll;
+}
+
+.nav-link{
+    color: white;
+    width: 100%;
 }
 
 
@@ -16,7 +22,3 @@ td, th{
 #todo{
     width: 40%;
 } 
-
-.wrapper{
-    background-color: #5bc0de
-}
