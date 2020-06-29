@@ -3,9 +3,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #5bc0de
 }
 
 .card{
-width: 400px;
+width: 450px;
+}
+
+.card-header{
+    background-color:rgb(14, 47, 67,0.9);
+}
+
+.logo{
+    color: white;
+    font-family: cursive;
+    font-weight: bold;
+}
+
+.logo::before{
+    content: '| ';
+}
+
+.logo::after{
+    content: ' |';
 }

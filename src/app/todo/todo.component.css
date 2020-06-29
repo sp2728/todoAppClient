@@ -1,17 +1,23 @@
 .wrapper{
-    min-height: 100vh;
+    
     display: flex;
     flex-direction: column;
-    background-color: whitesmoke;
-}
-
-.card{
-    overflow-x: scroll;
 }
 
 .nav-link{
     color: white;
-    width: 100%;
+}
+
+.btn-group::before{
+    content: 'Status: ';
+    font-weight: bold;
+    padding: 10px;
+}
+
+.date::before{
+    content: 'Date: ';
+    font-weight: bold;
+    padding: 10px;
 }
 
 
@@ -22,3 +28,7 @@ td, th{
 #todo{
     width: 40%;
 } 
+
+.mainContent{
+    overflow: scroll;
+}

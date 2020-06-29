@@ -16,8 +16,10 @@ export class TodoComponent implements OnInit {
   todoData: any;
   todoList = [];
   submitted: any;
+  date:any;
   user: any;
   error: any;
+  num:any;
 
   constructor(private fb: FormBuilder, private localStorageService: LocalstorageService, private completeService: CompleteService, private router: Router) { }
 
@@ -25,6 +27,8 @@ export class TodoComponent implements OnInit {
     this.getTodos();
     this.createForm();
     this.user = this.localStorageService.getUser();
+    this.num=1;
+    this.date = new Date().toLocaleDateString('en-CA');
     this.submitted = false;
   }
 
@@ -32,7 +36,8 @@ export class TodoComponent implements OnInit {
     this.todoForm = this.fb.group({
       activity: ['', [Validators.required]],
       priority: ['', [Validators.required]],
-      category: ['', [Validators.required]]
+      category: ['', [Validators.required]],
+      time: ['', [Validators.required]]
     })
   }
 
@@ -60,6 +65,27 @@ export class TodoComponent implements OnInit {
     })
   }
 
+
+  filter(num:any){
+    this.num=num;
+    if(this.num==1){
+      this.getTodos();
+    }
+    else if(this.num==2){
+      this.completeService.getTodos().subscribe((res)=>{
+        this.todoList = res['todos'].filter(todo=> todo.status== "Incomplete");
+      })    } 
+    else{
+      this.completeService.getTodos().subscribe((res)=>{
+        this.todoList = res['todos'].filter(todo=> todo.status== "Complete");
+      })
+    }
+  }
+
+  dateFilter(event:any){
+    console.log(new Date(event.target.value));
+  }
+
   triggerStatus(todo: any) {
     this.completeService.triggerStatus(todo._id, todo.status).subscribe((res) => {
       if (res['success']) {
@@ -76,22 +102,6 @@ export class TodoComponent implements OnInit {
       }
     })
   }
-
-  filter(num:any){
-    if(num==1){
-      this.getTodos();
-    }
-    else if(num==2){
-      this.completeService.getTodos().subscribe((res)=>{
-        this.todoList = res['todos'].filter(todo=> todo.status== "Incomplete");
-      })    } 
-    else{
-      this.completeService.getTodos().subscribe((res)=>{
-        this.todoList = res['todos'].filter(todo=> todo.status== "Complete");
-      })
-    }
-  }
-
 }
 
    // this.todoList.splice(this.todoList.findIndex(function (i) {

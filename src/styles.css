@@ -1,2 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+.wrapper{
+    background-color:whitesmoke;
+    min-height: 93vh;
+}
 
+.navbar{
+    background-color:rgba(19, 59, 85, 0.9);
+    height: 7vh;
+}

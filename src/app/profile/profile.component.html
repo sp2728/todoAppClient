@@ -1,0 +1,33 @@
+<app-header></app-header>
+
+<div class="wrapper d-flex justify-content-center align-items-center p-5">
+
+  <div class="card w-100">
+    <div class="card-header h5"> Profile Details </div>
+    <div class="card-body" *ngIf=user>
+
+      <div class="row p-3">
+        <span class="col font-weight-bold"> Username: </span><span class="col">{{user.username}}</span>
+      </div>
+      <div class="row p-3">
+        <span class="col font-weight-bold"> Email Id: </span><span class="col">{{user.email}}</span>
+      </div>
+
+      <div class="row p-3" *ngIf="!user.profileImage">
+        <span class="col-6 font-weight-bold"> Image: </span>
+        <span class="col"> <input type="file" (input)="fileChoosen($event)"></span>
+        <span class="col" *ngIf="choosen"> 
+          <button class="btn btn-warning" (click)="submitPhoto()">Submit</button>
+        </span>
+      </div>
+
+      <div class="row p-3" *ngIf="user.profileImage">
+        <span class="col-6 font-weight-bold"> Image: </span>
+        <span class="col-lg"><img src="{{user.profileImage}}" width="100" height="100"></span>
+        <span class="col-lg">
+          <button class="btn btn-danger" (click)="deletePhoto()">Delete Image</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

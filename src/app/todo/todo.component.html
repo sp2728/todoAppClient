@@ -4,18 +4,12 @@
   <div class="form-control text-center mb-2" *ngIf="error">
     <span class="text-danger">{{error}}</span>
   </div>
-  <div class="card d-flex flex-row justify-content-around w-100 mb-5">
-    <a class="nav-link btn btn-primary" (click)="filter(1)">All </a>
 
-    <a class="nav-link btn btn-danger" (click)="filter(2)">Scheduled</a>
-
-    <a class="nav-link btn btn-warning" (click)="filter(3)">Flagged</a>
-  </div>
   <!-- Todo List Form -->
   <form class="row mb-5" [formGroup]="todoForm" #fform="ngForm" (ngSubmit)="onSubmit()">
-    <div class="col-lg-8 form-group">
-      <input class="form-control" formControlName="activity" type="text" placeholder="Enter the todo item" required>
-      <span class="text-danger" *ngIf="todoForm.get('activity').hasError('required') && submitted">Todo Value is
+    <div class="col-lg-6 form-group">
+      <input class="form-control" formControlName="activity" type="text" placeholder="Enter the Activity" required>
+      <span class="text-danger" *ngIf="todoForm.get('activity').hasError('required') && submitted">Activity is
         required</span>
     </div>
     <div class="col form-group">
@@ -38,10 +32,38 @@
       <span class="text-danger" *ngIf="todoForm.get('category').hasError('required') && submitted">Category must be
         selected</span>
     </div>
+
+    <div class="col form-group">
+      <select class="form-control" formControlName="time" required>
+        <option value="" disabled selected>Time</option>
+        <option>1.00AM</option>
+        <option>2.00AM</option>
+        <option>3.00AM</option>
+      </select>
+      <span class="text-danger" *ngIf="todoForm.get('time').hasError('required') && submitted">Time must be
+        selected</span>
+    </div>
     <div class="col-lg form-group">
       <button class="btn btn-warning form-control border shadow">Add</button>
     </div>
   </form>
+
+  <div class="mainContent">
+  <div class="filter d-flex flex-row w-100 mb-5">
+
+    <div class="dateFilter ml-auto">
+      <input class="form-control date" type="date" value="{{date}}" (input)=dateFilter($event)>
+    </div>
+
+    <div class="btn-group ml-auto">
+    <a class="nav-link btn btn-primary" (click)="filter(1)">All </a>
+
+    <a class="nav-link btn btn-warning" (click)="filter(2)">Scheduled</a>
+
+    <a class="nav-link btn btn-success" (click)="filter(3)">Completed</a>
+  </div>
+  </div>
+
   <!--Todo List Table-->
   <div class="card p-3 d-flex justify-content-center align-items-center" *ngIf="todoList.length==0">
     <p class="font-weight-bold"> TODO list is empty </p>
@@ -49,10 +71,11 @@
   <div class="card" *ngIf="todoList.length!=0">
     <table class="w-100 border table-striped text-center">
       <thead>
-        <tr class="">
-          <th id="todo">Todo</th>
+        <tr class="border text-uppercase">
+          <th id="activity">Activity</th>
           <th id="priority">Priority</th>
           <th id="category">Category</th>
+          <th id="time">Time</th>
           <th id="status">Status</th>
           <th id="actions">Actions</th>
         </tr>
@@ -70,6 +93,9 @@
           <td id="category">
             <span class="font-weight-bold text-primary">{{todo.category}}</span>
           </td>
+          <td id="time">
+            <span class="font-weight-bold text-primary">{{todo.time}}</span>
+          </td>
           <td id="status">
             <span class="font-weight-bold text-danger" *ngIf="todo.status=='Incomplete'">{{todo.status}}</span>
             <span class="font-weight-bold text-success" *ngIf="todo.status=='Complete'">{{todo.status}}</span>
@@ -86,4 +112,5 @@
       </tbody>
     </table>
   </div>
+</div>
 </div>

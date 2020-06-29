@@ -5,10 +5,23 @@
     <span class="navbar-toggler-icon text-white"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav ml-auto">
-      <a class="btn btn-warning shadow font-weight-bold nav-item ml-3" routerLink="/login" *ngIf="!user" >Login</a>
-      <a class="btn btn-warning shadow font-weight-bold nav-item ml-3" routerLink="/signup" *ngIf="!user">Signup</a>
-      <a class="btn btn-warning shadow font-weight-bold nav-item ml-3" (click)="logout()" *ngIf="user">Logout</a>
-    </div>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown" *ngIf="username">
+        <a class="nav-link border-0 text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+         <img class="rounded-circle" src={{user.profileImage}} *ngIf="user.profileImage" height="40" width="40">
+         <span *ngIf="username && !user.profileImage">{{username}}</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right shadow">
+          <a class="dropdown-item" routerLink="/profile" *ngIf="user">Profile</a>
+          <a class="dropdown-item" (click)="logout()" *ngIf="user">Logout</a>
+        </div>
+      </li>
+      <li class="nav-item mr-3" *ngIf="!username">
+        <a class="nav-link" routerLink="/login" >Login</a>
+      </li>
+      <li class="nav-item" *ngIf="!username">
+        <a class="nav-link" routerLink="/signup">Signup</a>
+      </li>
+    </ul>
   </div>
 </nav>

@@ -2,7 +2,7 @@
 
   <div class="card">
 
-    <h4 class="text-center card-header"><a class="navbar-brand logo font-weight-bold p-2" routerLink="/">Todo App</a></h4>
+    <h4 class="text-center card-header"><a class="navbar-brand logo font-weight-bold p-2" routerLink="/">BhinJ</a></h4>
 
     <div class="card-body">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -21,6 +21,9 @@
       </form>
 
       <div class="form-group">
+        <span class="form-control"> Don't have an account ? <a routerLink="/signup">Sign Up</a></span>
+      </div>
+      <div class="form-group">
         <div class="text-secondary">
           <span class="nav-item ">Or Login With </span>
         </div>
@@ -30,6 +33,8 @@
         <button class="btn socialMedia" id="twitter"><i class="fa fa-twitter fa-lg"></i> </button>
       </div>
       </div>
+
+
     </div>
   </div>
 </div>

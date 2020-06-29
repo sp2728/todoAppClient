@@ -1,9 +1,5 @@
-.navbar{
-    background-color:rgb(14, 47, 67,0.9);
-}
-
 .logo{
-    color: white;
+    color:white;
     font-family: cursive;
     font-weight: bold;
 }
@@ -14,4 +10,10 @@
 
 .logo::after{
     content: ' |';
+}
+
+.nav-link{
+    border: 1px white solid;
+    border-radius: 10px;
+    color: white;
 }

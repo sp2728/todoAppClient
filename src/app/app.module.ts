@@ -12,13 +12,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { HttpConfigInterceptor } from './services/httpconfig.interceptor';
 
+// import hammer file
+import 'hammerjs';
+import { ProfileComponent } from './profile/profile.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     TodoComponent,
     LoginComponent,
     SingupComponent,
-    HeaderComponent
+    HeaderComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

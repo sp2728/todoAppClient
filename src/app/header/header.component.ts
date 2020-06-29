@@ -10,12 +10,20 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
+  username:any;
   user:any;
-  
+
   constructor(private completeService:CompleteService, private localStorageService:LocalstorageService, private router:Router) { }
 
   ngOnInit() {
-    this.user = this.localStorageService.getUser();
+    this.username = this.localStorageService.getUser();
+    this.getProfile();
+  }
+
+  getProfile(){
+    this.completeService.getProfile().subscribe((res)=>{
+      this.user = res['user'];
+    })
   }
 
   logout() {
