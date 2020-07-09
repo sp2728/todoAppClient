@@ -14,6 +14,9 @@ export class SingupComponent implements OnInit {
   signupData: any;
   submitted: any;
   error:any;
+  confirmPasswordError= false;
+  confirmPasswordErrorValue:any;
+
   constructor(private fb: FormBuilder, private completeService:CompleteService, private router:Router) { }
 
   ngOnInit() {
@@ -31,23 +34,36 @@ export class SingupComponent implements OnInit {
 
   onSubmit(){
     this.submitted=true;
+    let confirmPassword = (document.getElementById('confirmPassword') as HTMLInputElement).value
+  
     if(this.signupForm.valid){
       this.signupData = this.signupForm.value;
-      this.completeService.postSignup(this.signupData).subscribe((res)=>{
-        if(res['success']){
-          this.router.navigate(['/']);
-        }
-        else{
-          console.log(res['err']['name']);
-          if(res['err']['name']==='UserExistsError'){
-            this.error="Username already exists";
+      if(!confirmPassword){
+        this.confirmPasswordError= true;
+        this.confirmPasswordErrorValue= "Confirm Password is required";
+      }
+      else if(this.signupData['password']!== confirmPassword){
+        this.confirmPasswordError= true;
+        this.confirmPasswordErrorValue= "Confirm Password should match with Password";
+      }
+      else{
+        this.confirmPasswordError=false;
+        this.completeService.postSignup(this.signupData).subscribe((res)=>{
+          if(res['success']){
+            this.router.navigate(['/']);
           }
           else{
-            this.error="Invalid Registration";
+            console.log(res['err']['name']);
+            if(res['err']['name']==='UserExistsError'){
+              this.error="Username already exists";
+            }
+            else{
+              this.error="Invalid Registration";
+            }
+            this.signupForm.reset()
           }
-          this.signupForm.reset()
-        }
-      })
+        })
+      }
     }
   }
 

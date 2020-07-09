@@ -13,12 +13,21 @@
         <span class="col font-weight-bold"> Email Id: </span><span class="col">{{user.email}}</span>
       </div>
 
-      <div class="row p-3" *ngIf="!user.profileImage">
+      <div class="row p-3" *ngIf="!user.profileImage && !submitted">
         <span class="col-6 font-weight-bold"> Image: </span>
         <span class="col"> <input type="file" (input)="fileChoosen($event)"></span>
         <span class="col" *ngIf="choosen"> 
           <button class="btn btn-warning" (click)="submitPhoto()">Submit</button>
         </span>
+      </div>
+
+      <div class="row p-3" *ngIf="!user.profileImage && submitted">
+        <span class="col-6 font-weight-bold"> Image: </span>
+        <div class="col">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
       </div>
 
       <div class="row p-3" *ngIf="user.profileImage">

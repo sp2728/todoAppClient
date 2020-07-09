@@ -11,6 +11,7 @@ export class ProfileComponent implements OnInit {
   user:any;
   choosen:any;
   image:any;
+  submitted=false;
   constructor(private completeService:CompleteService) { }
 
   ngOnInit() {
@@ -33,10 +34,14 @@ export class ProfileComponent implements OnInit {
 
   submitPhoto(){
     let fd = new FormData();
+    this.submitted= true;
     if(this.image){
       fd.append('profileImage', this.image, this.image.name);
       this.completeService.updateProfileImage(fd).subscribe((res)=>{
-        if(res['success']){this.getProfile();}
+        if(res['success']){
+          this.submitted=false;
+          this.getProfile();
+        }
       });
     }
   }
