@@ -1,15 +1,15 @@
 <nav class="navbar navbar-expand-lg shadow sticky-top">
   <a class="navbar-brand logo p-2" routerLink="/">BhinJ</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon text-white"></span>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+    <span class="fa fa-bars fa-lg text-white"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <ul class="navbar-nav ml-auto">
+      <span class="vertical-line d-none d-lg-block"  *ngIf="username"></span>
       <li class="nav-item dropdown" *ngIf="username">
-        <a class="nav-link border-0 bg-light text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
-         <img class="rounded-circle" src={{user.profileImage}} *ngIf="user.profileImage" height="40" width="40">
-         <span *ngIf="username && !user.profileImage">{{username}}</span>
+        <a class="nav-link user" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+         <img class="rounded-circle" src={{user.profileImage}} *ngIf="user" height="40" width="40">
+         <span *ngIf="username"> {{username}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-right shadow">
           <a class="dropdown-item" routerLink="/profile" *ngIf="user">Profile</a>
@@ -17,10 +17,10 @@
         </div>
       </li>
       <li class="nav-item mr-3" *ngIf="!username">
-        <a class="nav-link" routerLink="/login" >Login</a>
+        <a class="nav-link border" routerLink="/login" >Login</a>
       </li>
       <li class="nav-item" *ngIf="!username">
-        <a class="nav-link" routerLink="/signup">Signup</a>
+        <a class="nav-link border" routerLink="/signup">Signup</a>
       </li>
     </ul>
   </div>

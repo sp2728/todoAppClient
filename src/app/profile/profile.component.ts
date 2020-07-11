@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CompleteService } from '../services/complete.service';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  // ...
+} from '@angular/animations';
 
 @Component({
   selector: 'app-profile',

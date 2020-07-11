@@ -13,7 +13,20 @@
 }
 
 .nav-link{
-    border: 1px white solid;
-    border-radius: 10px;
+    border-radius: 5px;
     color: white;
+}
+
+.vertical-line{
+    display: inline-block;
+    border-left: 1px solid #ccc;
+    height: 55px;
+}
+
+.user:hover{
+    background-color: rgba(8, 34, 51, 0.9);;
+}
+
+.navbar-toggler-icon{
+color: ivory;
 }

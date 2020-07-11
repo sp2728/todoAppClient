@@ -5,7 +5,7 @@
     <h4 class="text-center card-header"><a class="navbar-brand logo font-weight-bold p-2" routerLink="/">BhinJ</a>
     </h4>
 
-    <div class="card-body">
+    <div class="card-body" *ngIf="!loading">
       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
         <span class="text-danger form-control border-0 text-center" *ngIf="error && (signupForm.get('username').hasError('required') && signupForm.get('email').hasError('required') && signupForm.get('password').hasError('required'))">{{error}}</span>
         <div class="form-group">
@@ -24,6 +24,13 @@
           <input class="form-control" type="password" id="confirmPassword" placeholder=" Confirm Password" value="">
           <span class="text-danger" *ngIf="confirmPasswordError && submitted"> {{confirmPasswordErrorValue}}</span>
         </div>
+        <div class="form-group ">
+          <div class="form-check">
+          <input class="form-check-input"  type="checkbox" id="agreement" value="true">
+          <label>I agree to terms of service and privacy policy.</label>
+        </div>
+        <span class="text-danger" *ngIf="agreementError && submitted"> Please tick the agreement to proceed </span>
+        </div>
         <div class="form-group text-center">
           <button class="btn btn-warning shadow">Signup</button>
         </div>
@@ -34,6 +41,11 @@
       </div>
     </div>
 
-  </div>
+    <div class="card-body text-center" *ngIf="loading">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
 
+  </div>
 </div>

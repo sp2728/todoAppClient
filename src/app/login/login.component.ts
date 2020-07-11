@@ -15,12 +15,14 @@ export class LoginComponent implements OnInit {
   loginData: any;
   submitted: any;
   error:any;
+  loading:any;
 
   constructor(private fb: FormBuilder, private router:Router, private localStorageService:LocalstorageService,private completeService:CompleteService) { }
 
   ngOnInit() {
     this.createForm();
     this.submitted=false;
+    this.loading=false;
   }
 
   createForm() {
@@ -33,6 +35,7 @@ export class LoginComponent implements OnInit {
   onSubmit(){
     this.submitted=true;
     if(this.loginForm.valid){
+      this.loading=true;
       this.loginData = this.loginForm.value;
       this.submitted=false;
       this.completeService.postLogin(this.loginData).subscribe((res)=>{
@@ -44,6 +47,7 @@ export class LoginComponent implements OnInit {
           this.error="Invalid username or password";
           this.loginForm.reset()
         }
+        this.loading=false;
       })
     }
   }

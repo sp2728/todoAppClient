@@ -12,7 +12,7 @@
       <span class="text-danger" *ngIf="todoForm.get('activity').hasError('required') && submitted">Activity is
         required</span>
     </div>
-    <div class="col form-group">
+    <div class="col-lg form-group">
       <select class="form-control" formControlName="priority" required>
         <option value="" disabled selected> Priority </option>
         <option>Low</option>
@@ -22,7 +22,7 @@
       <span class="text-danger" *ngIf="todoForm.get('priority').hasError('required') && submitted">Priority must be
         selected</span>
     </div>
-    <div class="col form-group">
+    <div class="col-lg form-group">
       <select class="form-control" formControlName="category" required>
         <option value="" disabled selected>Category</option>
         <option>Work</option>
@@ -33,7 +33,7 @@
         selected</span>
     </div>
 
-    <div class="col form-group">
+    <div class="col-lg form-group">
       <select class="form-control" formControlName="time" required>
         <option value="" disabled selected>Time</option>
         <option>1.00AM</option>
